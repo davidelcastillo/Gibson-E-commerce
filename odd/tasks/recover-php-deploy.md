@@ -79,27 +79,62 @@ authorization. Revoking the leaked Gmail password is a user action on their Goog
       every filename and extension the database references. Result: 264 MB -> 44 MB in the image
       (-84%), 199 files in and 199 out, identical path set. Commit `af9da10` (with T4).
 - [x] T6 - Deployment guide: `DEPLOY.md`.
-- [x] T7 - Functional verification: see the evidence section below; the one unverified acceptance
-      criterion (authenticated admin listing) was closed by the orchestrator with a real login test.
+- [x] T7 - Functional verification: see the evidence section below.
+- [x] T8 - Admin authorization (authorized by the owner after the finding). `admin/require_login.php`
+      is required by the 25 admin pages, the report pages and the three admin JSON endpoints. Commit
+      `8d24e31`. This task also fixed the root cause behind the broken redirects (see below).
+- [x] T9 - Linux case-sensitivity fixes. Commit `fc038ab`.
 
-## Out of scope, but found and requiring a decision
+## T8 - what was actually wrong, and the root cause
 
-The admin data pages are NOT protected by the login: `admin/users.php`, `admin/orders.php`,
-`admin/products.php`, `admin/discount.php` and `admin/reports.php` render full data with no session
-check (verified anonymously: `users.php` returns 200 and shows the customer's email). Only
-`admin/dashboard.php` and the five `admin/delete_*.php` scripts check `$_SESSION['admin_logged_in']`.
-With the seeded throwaway data the real impact is low, but any real customer data placed there would
-be publicly readable. Fixing it is a behavior change to the app and therefore NEW scope: it needs
-explicit authorization. Candidate task T8: add the same guard used by `dashboard.php` to the five
-data pages.
+The original finding was "five data pages render without a session". Measuring the whole surface
+showed the hole was larger: **25 admin pages** were reachable anonymously, including the create,
+edit and image-upload pages, so the exposure was unauthenticated WRITE access, not only read.
+
+The gate (`admin/require_login.php`) computes the login URL relative to the running script, so it is
+correct from `admin/*`, from `admin/reports/*` and from `server/*`, and it does not break an install
+served from a subdirectory.
+
+Two root causes were found while fixing this, both of which had been misdiagnosed earlier in the
+session:
+
+1. `admin/header.php` emitted a blank line before any `header()` call. Every redirect executed after
+   including it was therefore ignored, with a "Cannot modify header information" warning written into
+   the HTTP response. That is why the admin login never redirected to the dashboard, and why
+   `dashboard.php` and the five `delete_*.php` answered 200 (instead of 302) when accessed
+   anonymously. It is now an include-only file that emits zero bytes. The `ob_start()` workaround an
+   earlier pass had needed became unnecessary and was removed from the 16 files that carried it.
+2. `admin/login.php`'s form posted to `Login.php` (capital L) while the file is `login.php`. Windows
+   does not care; the Linux container does, so the admin panel could not be signed into on the deploy
+   target at all. A systematic scan of 577 path references found six such case mismatches; all six are
+   fixed and the scan now reports zero (commit `fc038ab`).
+
+Correction to an earlier claim in this document: the 200-instead-of-302 behaviour observed during
+verification was first written off as a test-harness artifact. It was not. It was root cause 1.
+
+## Still open - reported, not fixed
+
+- 13 path references point at targets that do not exist in any casing: the `index.php` navigation
+  block uses `../css/`, `../img/`, `../php/`, `../html/`, and `layouts/footer-php.php` links to
+  `./Login.php`. The `index.php` ones are sloppy but WORK, because a browser normalises `/../x` to
+  `/x` and the targets do exist at the root. The footer link is genuinely broken when the footer is
+  rendered from the admin login page (it resolves to `/admin/Login.php`). Also
+  `admin/reports/report_inactive_customers.php` redirects to `/pages/admin/reports.php`, which does
+  not exist. All pre-existing, none blocking.
+- Four pre-existing bugs reported by the independent verifier and deliberately not fixed: the missing
+  `discount_type_cat` / `discount_value_cat` aliases in `admin/products.php`, the undefined
+  `$image_names` in `admin/update_images.php`, the `target_type='body'` inconsistency in
+  `admin/edit_discount.php`, and the `'ssis'` bind type with five variables in `admin/create_user.php`.
 
 ## Acceptance criteria
 
 - [x] `docker compose up` starts the app and MySQL, and the SQL files load with no errors.
 - [x] The site loads: home, electric catalog, acoustic catalog, search, product detail.
-- [x] The admin panel logs in with the seeded admin and lists users, products, orders and discounts.
-      (`dashboard.php` returns 200 with a real authenticated session; `users.php` shows the seeded
-      customer row. Note the guard gap above: the listing pages do not actually require that session.)
+- [x] The admin panel signs in with the seeded admin and lists users, products, orders and discounts.
+- [x] Every admin page, report page and admin JSON endpoint answers 302 to an anonymous caller
+      (31 entry points swept: zero non-302) and 200 to an authenticated one.
+- [x] Unauthenticated writes are rejected, proven by row counts: `users` and `products` unchanged
+      after anonymous POSTs to `create_user.php` and `create_product.php`.
 - [x] No hardcoded credential remains in the repository source. Zero occurrences of the value and of
       the real address across 190 scanned text files.
 - [x] Every seeded image path resolves to a file that exists in the repository (177 paths checked,
@@ -114,10 +149,12 @@ data pages.
 - T4/T5 packaged the app and moved image optimization into the build stage.
 - T6 documented the deployment, including provider claims verified against official docs.
 - T7 exercised the running stack and closed the admin-login gap in the evidence.
+- T8 gated the admin surface and fixed the redirect root cause.
+- T9 fixed the case-sensitivity breakage that would have made the panel unusable on Linux.
 
 ## Verification evidence (observed, not assumed)
 
-Database load — three independent runs, each loading both SQL files into MySQL 8.4:
+Database load - three independent runs, each loading both SQL files into MySQL 8.4:
 - 10 tables, 4 stored procedures (`GetOrderDetails`, `mov_n_delete_order`,
   `mov_n_delete_product`, `mov_n_delete_user`), 25 products, `electric=18`, `acustic=7`, 1 admin.
 - `CALL GetOrderDetails(1)` returns the six aliases `admin/order_details.php` reads.
@@ -127,31 +164,46 @@ Database load — three independent runs, each loading both SQL files into MySQL
   tables. `GetOrderDetails` aliases match 6/6.
 - 177 seeded image paths checked against disk: 0 missing.
 
-Application — the compose stack, verified with HTTP requests:
+Application - the compose stack, verified with HTTP requests:
 - `/index.php`, `/php/ElectricGuitars.php` (8 product cards), `/php/AcousticGuitars.php` (7 cards),
-  `/php/ProductDestail.php?product_id=1`, `/php/Search.php` (POST "Les Paul" matched a product),
-  `/admin/login.php`: all HTTP 200.
-- `docker compose logs web`: no PHP fatal, warning, notice or parse error.
-- Admin login: a session that POSTs the seeded credentials is then able to GET the guarded
-  `admin/dashboard.php` without being redirected — the login genuinely works.
-- Images: `/img/guitarras_lp/lp_standar60.png` served at 211,171 bytes from a 1,199,810 byte source.
-- PHP lint over the whole app: 78-80 files, zero syntax errors.
+  `/php/ProductDestail.php?product_id=1`, `/php/Search.php` (POST "Les Paul" matched a product):
+  all HTTP 200.
+- Admin: anonymous GET of all 25 gated pages plus `dashboard.php` and the five `delete_*.php` returns
+  302 to the login page (31 entry points, zero non-302); following the redirect lands on a 200 login
+  page, including from the deep `admin/reports/*` path and from `server/*`.
+- Admin authenticated: the served login form's own `action` is used to POST the seeded credentials and
+  the response is a 302 to `dashboard.php?admin_log_success=...`; with that session `users.php`,
+  `orders.php`, `products.php`, `discount.php`, `reports.php` and `add_product.php` return 200 with
+  data, and `report_sales_by_month.php` returns a 14 KB PDF.
+- The three admin JSON endpoints redirect anonymously and return their JSON payloads when
+  authenticated, so the dashboard charts keep working.
+- Anonymous write attempts are rejected and the database row counts are unchanged.
+- `docker compose logs web`: no PHP fatal, warning, notice, "headers already sent" or
+  "Cannot modify header" lines.
+- PHP lint: the whole app and the admin tree parse with zero syntax errors.
+- Image case check: 577 path references scanned inside the Linux container (a Windows bind mount is
+  case-insensitive and would have hidden the bug); 0 mismatches remain.
 
 Limitations recorded honestly:
 - Email delivery was never exercised: no SMTP credentials exist, so only the configuration path was
   checked (the missing-variable failure message was observed).
 - The native immutable receipt review is unavailable in this runtime: `gentle-ai review assess`
-  returned `unassessable` because only claude-code and codex are eligible. Indexed review was not
-  performed; verification rests on the two delegated writers' observed command output plus the
-  independent verifier and the orchestrator's own HTTP checks.
-- The repository working tree still holds the 264 MB of source images. The optimization is applied
-  in the image, so the disk weight and the git history are unchanged.
+  returns `unassessable` because only claude-code and codex are eligible for it. Indexed review was
+  not performed; verification rests on the delegated writers' observed command output, an independent
+  verifier, and the orchestrator's own HTTP checks.
+- The repository working tree still holds the 264 MB of source images. The optimization is applied in
+  the built image, so the disk weight and the git history are unchanged.
+- The subdirectory-install path of the new gate was reasoned from `DOCUMENT_ROOT` arithmetic, not
+  exercised against a second vhost.
 
 ## Next step
 
-Owner decisions, in order:
-1. Revoke the Gmail application password in the Google account: it is still in the git history of a
-   public repository, and removing it from the source does not revoke it.
-2. Decide on the admin guard gap (candidate task T8) described above.
-3. Pick the deploy host and follow `DEPLOY.md`; the app is already running locally on
+Owner actions, in order:
+1. Revoke the Gmail application password in the Google account. It is still present in the git history
+   of a public repository, and removing it from the source does not revoke it.
+2. Change the seeded admin password (`admin@lenguajes.com` / `admin123`) immediately after the first
+   deploy, and remove or rotate the seeded demo customer.
+3. Pick the deploy host and follow `DEPLOY.md`. The app is already running locally on
    `http://localhost:8080` via `docker compose up -d --build`.
+4. Push the branch and open a PR when ready. The branch is local and unpushed; `main`, `Dev` and the
+   existing static deploy are untouched.
