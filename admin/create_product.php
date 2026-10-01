@@ -2,6 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+require_once(__DIR__ . '/require_login.php');
 include('../server/connection.php');
 if (isset($_POST['create_btn'])) {
     $error = 0; // Error flag

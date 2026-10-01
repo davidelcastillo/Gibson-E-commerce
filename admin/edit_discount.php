@@ -1,4 +1,5 @@
 <?php include('./header.php'); ?>
+<?php require_once(__DIR__ . '/require_login.php'); ?>
 <?php 
 if( isset($_GET['promo_id'])) {
     $promo_id = $_GET['promo_id'];

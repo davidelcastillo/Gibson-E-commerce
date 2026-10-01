@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../require_login.php');
 require('./fpdf.php');
 include('../../server/connection.php');
 

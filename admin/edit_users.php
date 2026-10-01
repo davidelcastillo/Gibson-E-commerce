@@ -1,4 +1,5 @@
 <?php include('./header.php') ?>
+<?php require_once(__DIR__ . '/require_login.php'); ?>
 <?php 
 if( isset($_GET['user_id'])) {
     $user_id = $_GET['user_id'];

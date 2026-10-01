@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../admin/require_login.php';
 include('./connection.php');
 
 header('Content-Type: application/json');

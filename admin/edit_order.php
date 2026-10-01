@@ -1,4 +1,5 @@
 <?php include('./header.php') ?>
+<?php require_once(__DIR__ . '/require_login.php'); ?>
 <?php 
 $stmt = $conn->prepare("SELECT user_id FROM users");
 $stmt->execute();

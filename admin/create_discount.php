@@ -1,5 +1,6 @@
 <?php
 include('./header.php');
+require_once(__DIR__ . '/require_login.php');
 
 if (isset($_POST['create_btn'])) {
     require_once('../server/connection.php'); // Asegúrate de incluir la conexión

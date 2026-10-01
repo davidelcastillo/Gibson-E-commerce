@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/require_login.php');
 include('../server/connection.php');
 if (isset($_POST['update_images'])){
     $product_name = $_POST['product_name'];

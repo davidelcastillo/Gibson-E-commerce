@@ -1,4 +1,5 @@
 <?php include('./header.php') ?>
+<?php require_once(__DIR__ . '/require_login.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">

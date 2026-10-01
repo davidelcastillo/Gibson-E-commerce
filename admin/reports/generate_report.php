@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../require_login.php');
 if (isset($_GET['report'], $_GET['start_date'], $_GET['end_date'])) {
     $report = $_GET['report'];
     $start_date = $_GET['start_date'];
