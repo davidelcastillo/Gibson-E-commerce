@@ -168,7 +168,7 @@ function calculateTotalCart() {
                       <div class="product_detail">
                         <p class="mb-5"><?php echo $value['product_name'];?></p>
                         <br>
-                        <form method="POST" action="cart.php">
+                        <form method="POST" action="Cart.php">
                           <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
                           <input type="submit" name="remove_product" class="remove-btm" value="Remove"/>
                         </form>
