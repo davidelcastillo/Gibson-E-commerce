@@ -1,0 +1,75 @@
+# Gibson store - local / self-hosted stack.
+#
+#   docker compose up -d --build
+#   open http://localhost:8080
+#
+# Docker Compose automatically loads a ./.env file (if present) for variable
+# interpolation, so the same keys documented in .env.example drive both
+# services. Every value below has a safe default, so the stack also comes up
+# with no .env at all. .env is git-ignored and must never be committed.
+
+name: gibson
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    environment:
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-3306}
+      DB_USER: ${DB_USER:-root}
+      # Must match MYSQL_ROOT_PASSWORD below.
+      DB_PASS: ${DB_PASS:-gibson_local_root}
+      DB_NAME: ${DB_NAME:-lenguajes}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-465}
+      SMTP_SECURE: ${SMTP_SECURE:-ssl}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      MAIL_TO: ${MAIL_TO:-}
+    volumes:
+      # EPHEMERAL FILESYSTEM WARNING
+      # The container filesystem is thrown away on every rebuild/redeploy, so
+      # product images uploaded from the admin panel (admin/create_product.php,
+      # admin/update_images.php write to img/) would be LOST. On the first `up`
+      # Docker seeds this named volume from the img/ directory baked into the
+      # image, then keeps every later upload. Without this volume, uploads do
+      # not survive a redeploy.
+      - app_images:/var/www/html/img
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-gibson_local_root}
+      MYSQL_DATABASE: ${DB_NAME:-lenguajes}
+    volumes:
+      # The MySQL entrypoint executes these files in lexicographic order on the
+      # first start (empty data directory): schema first, seed second.
+      - ./database/01-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./database/02-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      # Authenticated probe. `-h 127.0.0.1` forces a network connection: MySQL
+      # runs its temporary init server with --skip-networking while it loads the
+      # schema and seed, so a socket-only probe (or `mysqladmin ping`, which also
+      # reports success on "Access denied") would mark the DB healthy too early
+      # and let web start against a half-loaded database. With TCP the container
+      # only reports healthy once the real server listens on 3306.
+      test: ["CMD-SHELL", "mysql -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 300
+      start_period: 30s
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
+  app_images:

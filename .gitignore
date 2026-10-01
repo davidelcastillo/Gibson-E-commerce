@@ -5,6 +5,7 @@
 
 # Tooling caches
 .atl/
+.codegraph/
 
 # PHP dependencies (PHPMailer is vendored in-tree)
 vendor/
