@@ -202,7 +202,7 @@ Do all of these before sharing the URL.
 
 - [ ] (a) Revoke the Gmail application password in the Google account. It is still present in the git history of this public repository. Removing it from the source does **not** revoke it.
 - [ ] (b) Set the SMTP values from the environment with a **new** app password (`SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO`).
-- [ ] (c) Log in at `/admin/login.php` and change the seeded admin password immediately. The seeded hash is public.
+- [ ] (c) Log in at `/admin/login.php` and change the seeded admin password immediately. The seeded hash is public, so change the seeded credentials right after the first deploy. Every admin page now requires an authenticated session: the lists, the create/edit/upload pages (`admin/create_product.php`, `admin/create_user.php`, `admin/update_images.php`) and the report pages under `admin/reports/` all redirect anonymous visitors to the login page. `admin/login.php` is the only admin page that stays public.
 - [ ] (d) Remove or rotate the seeded demo customer account.
 - [ ] (e) Never commit `.env`. `.gitignore` already ignores it.
 - [ ] (f) Note that the legacy code compares unsalted `md5` password hashes. This is weak. It is acceptable only for a demo/portfolio instance holding throwaway data, never for real user data.
