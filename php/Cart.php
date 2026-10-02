@@ -1,3 +1,26 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
+    <title>Cart</title>
+    <link rel="stylesheet" href="">
+    <link rel="icon" type="image/x-icon" href="../asset/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../css/Cart.css">
+    <link rel="stylesheet" href="../css/Header.css">
+    <link rel="stylesheet" href="../css/Footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<?php  
+    include('../layouts/header-php.php');
+?>
+
 <?php 
 
 session_start();
@@ -20,12 +43,34 @@ if (isset($_POST['add_to_cart'])){
           'product_price'=> $_POST['product_price'],
         );
 
-        $_SESSION['cart'][$_POST['product_id']] = $product_array;
+        $_SESSION['cart'][$_POST['product_id']] = $product_array;  ?>
 
+        <script> Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Product was add to the cart",
+                showConfirmButton: false,
+                timer: 2000,
+                color: "#6f6d6b",
+                background: "#0f0e0b"
+              });
+        </script>
+
+
+<?php 
       // product has already been added
-    }else {
-          echo'<script>alert("Product was already added to the cart");</script>'; 
-    }
+    }else { ?>
+      <script> Swal.fire({
+        position: "top-end",
+        icon: "warning",
+        title: "Product was already added to the cart",
+        showConfirmButton: false,
+        timer: 2000,
+        color: "#6f6d6b",
+        background: "#0f0e0b"
+      });
+      </script>
+    <?php }
 
     // if is the 1st product
   } else {
@@ -42,7 +87,19 @@ if (isset($_POST['add_to_cart'])){
         'product_price'=> $product_price,
       );
       
-      $_SESSION['cart'][$product_id] = $product_array;
+      $_SESSION['cart'][$product_id] = $product_array; ?>
+      
+      <script> Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Product was add to the cart",
+                showConfirmButton: false,
+                timer: 2000,
+                color: "#6f6d6b",
+                background: "#0f0e0b"
+              });
+        </script>
+      <?php
 
   }
 
@@ -84,27 +141,6 @@ function calculateTotalCart() {
 ?>
 
 
-<!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
-    <title>Cart</title>
-    <link rel="stylesheet" href="">
-    <link rel="icon" type="image/x-icon" href="../asset/favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/Cart.css">
-    <link rel="stylesheet" href="../css/Header.css">
-    <link rel="stylesheet" href="../css/Footer.css">
-</head>
-
-<?php  
-    include('../layouts/header-php.php');
-?>
     <section class="main_section">
         <div class="title">
             <h1>
@@ -132,7 +168,7 @@ function calculateTotalCart() {
                       <div class="product_detail">
                         <p class="mb-5"><?php echo $value['product_name'];?></p>
                         <br>
-                        <form method="POST" action="cart.php">
+                        <form method="POST" action="Cart.php">
                           <input type="hidden" name="product_id" value="<?php echo $value['product_id']; ?>"/>
                           <input type="submit" name="remove_product" class="remove-btm" value="Remove"/>
                         </form>
@@ -155,7 +191,7 @@ function calculateTotalCart() {
           <div class="Total_conteiner";">
             <div class="Sub_conteiner">
               <p class="mb-3">Subtotal</p>
-              <p class="mb-4">$ <?php echo $_SESSION['total']; ?></p>
+              <p class="mb-4">$ <?php if (isset($_SESSION['total'])) { echo $_SESSION['total']; }?></p>
             </div>
             
             <div class="Sub_conteiner">
@@ -166,7 +202,7 @@ function calculateTotalCart() {
 
             <div class="Total">
               <p class="mb-1">Total (tax included)</p>
-              <p class="mb-4">$<?php echo $_SESSION['total_tax']; ?></p>
+              <p class="mb-4">$<?php if (isset($_SESSION['total_tax'])) {echo $_SESSION['total_tax'];} ?></p>
             </div>
             
             <div class="checkout-container">
@@ -176,12 +212,6 @@ function calculateTotalCart() {
                 <?php } ?>
               </form>
             </div>
-            <!-- <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn">
-              <div class="d-flex justify-content-between">
-                <span>Checkout   $</span>
-                <span><?php echo $_SESSION['total_tax']; ?></span>
-              </div>
-            </button> -->
           </div>     
         </section>
     </section>

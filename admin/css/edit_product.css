@@ -1,0 +1,219 @@
+.main-content {
+    width: 87vw;
+    padding: 2vw;
+    /* flex-grow: 1;
+    padding: 20px;
+    background-color: #181828;
+    overflow-y: auto; */
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vw;
+}
+
+header h1 {
+    color: var(--accent-color);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+::-webkit-input-placeholder {
+    font-size: 1.3em;
+    color: white;
+}
+
+label {
+    display: block;
+    font-size: 2.5vh;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
+.name {
+    background-color: transparent;
+    transition: 1.5s;
+    width: 30vw;
+    margin: 2vw;
+    border-radius: 1vw;
+    border-color: #a1a0a0;
+    margin-right: 1vw;
+    margin-top: 0vw;
+    margin-left: 1%;
+    justify-self: left;
+    height: 3.5vw;
+}
+.name:hover {
+    border-bottom: 5px solid #1f201f;
+    width: 32vw;
+    transition: ease 0.9s;
+}
+
+.message {
+    background-color: transparent;
+    transition: 1.5s;
+    width: 40vw;
+    margin: 2vw;
+    border-radius: 1vw;
+    border-color: #a1a0a0;
+    margin-right: 1vw;
+    margin-top: 0vw;
+    margin-left: 1%;
+    justify-self: left;
+    height: 10vw;
+}
+
+.message:hover {
+    border-bottom: 5px solid #1f201f;
+    width: 43vw;
+    height: 15vw;
+    transition: ease 0.5s;
+}
+
+.formEntry {
+    display: block;
+    margin: 30px auto;
+    min-width: 300px;
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    transition: all 0.5s ease 0s;
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+}
+
+.option {
+    background-color: #242424;
+    margin-bottom: 10px;
+}
+
+.option label {
+    display: block;
+    font-size: 2.5vh;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
+.option input, .option select {
+    width: 60%;
+    padding: 1vw;
+    border: 1px solid white;
+    background-color: transparent;
+    color: #fff;
+    border-radius: 15px;
+}
+
+/* Botón de envío */
+.submit {
+    background-color: rgb(83, 81, 81);
+    font-size: 2vw;
+    transition: 1s;
+    color: white;
+    border: 0;
+    transition: 0.9s;
+    width: 14vw;
+    border-radius: 1.4vw;
+    justify-self: center; /* Centra el botón horizontalmente */
+    align-self: center;   /* Centra el botón verticalmente */
+}
+
+.submit:hover {
+    box-shadow: 15px 15px 15px 5px rgba(78, 72, 77, 0.219);
+    transform: translateY(-3px);
+    border: 5px solid #55524f;
+    background-color: rgb(155, 151, 151);
+    font-size: 2.3vw;
+    color: #2a2929;
+}
+
+
+.form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    animation: bounce 1.5s infinite;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container {
+    max-width: 80vw;
+    margin: 50px auto;
+    background: rgb(56,60,60) !important;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Oculta el input original */
+.form-group input[type="file"] {
+    display: none;
+}
+
+/* Botón personalizado */
+.form-group label.upload-btn {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #747575; /* Color azul */
+    color: rgb(37, 36, 36);
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+}
+
+/* Hover para el botón */
+.form-group label.upload-btn:hover {
+    background-color: #4d5053; /* Azul más oscuro */
+    color: white;
+    transition: 0.9s;
+
+}
+
+/* Nombre del archivo */
+.file-name {
+    display: block;
+    font-size: 12px;
+    color: #ccc;
+    margin-top: 5px;
+    text-align: center;
+}
+
+select {
+    appearance: none; /* Elimina el estilo predeterminado del navegador */
+    border: 1px solid white;
+    background-color: transparent;
+    color: white;
+    border-radius: 8px; /* Esquinas redondeadas */
+    padding: 10px; /* Espaciado interno */
+    font-size: 12px; /* Tamaño de fuente */
+    width: 100%; /* Ajusta el ancho al contenedor */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil */
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+select:focus {
+    outline: none; /* Elimina el contorno predeterminado */
+    border-color: #06f; /* Borde azul al enfocar */
+    box-shadow: 0 0 5px rgba(0, 102, 255, 0.5); /* Sombra azul */
+}
+
+select option {
+    background-color: #222; /* Fondo de las opciones */
+    color: #fff; /* Color del texto */
+}

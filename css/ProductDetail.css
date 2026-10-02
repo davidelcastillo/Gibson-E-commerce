@@ -263,6 +263,12 @@ h2 {
 
 .product-options {
     margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    justify-content: space-between;
+    align-items: start;
+    text-align: start;
 }
 
 .option {
@@ -286,6 +292,26 @@ h2 {
     border-radius: 15px;
 }
 
+.color {
+    justify-self: left;
+    margin-bottom: 10px;
+    background-color:none;
+    text-align: start;
+}
+
+.color img {
+    width: 2.3vw;
+    border-radius: 50vw;
+    border: 1px solid #ffffff;
+}
+
+.color label {
+    display: block;
+    font-size: 3.3vh;
+    margin-bottom: 5px;
+    color: #aaa;
+}
+
 .product-price {
     margin: 20px 0;
     display: flex;
@@ -299,7 +325,23 @@ h2 {
     width: max-content;
 }
 
-.product-price button {
+.product-btn {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.product-btn h3 {
+    font-size: 28px;
+    color: #fff;
+    margin-right: 15%;
+    width: max-content;
+}
+
+.product-btn button {
     padding: 10px 10px;
     width: 13vw;
     background-color: rgb(155, 151, 151);
@@ -315,7 +357,7 @@ h2 {
 }
 
 button:hover {
-    height: 4.5vw;
+    width: 13.5vw;
     font-size: 3.6vh;
     background-color: rgb(105, 103, 103);
     color: #ddd;
@@ -342,13 +384,76 @@ button:hover {
     color: #ddd;
 }
 
-.video_section {
+.video_section, .details_section {
     width: 80vw;
     margin: 0 auto;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
+
+.tabs {
+    display: flex;
+    margin-bottom: 0.5vw;
+}
+
+.tablinks {
+    background-color: transparent;
+    color: white;
+    border: none;
+    outline: none;
+    padding: 10px 25px;
+    cursor: pointer;
+    transition: 1s; /* Sin animación en hover */
+    position: relative;
+    font-size: 1.2vw;
+}
+
+.tablinks:hover {
+    border: none;
+    background-color: transparent;
+
+}
+
+.tablinks.active {
+    border-bottom: 2px solid #7b755e;
+    font-weight: bold; /* Borde dorado para el tab activo */
+}
+
+.tabcontent {
+    display: none;
+}
+
+.tabcontent.active {
+    display: block;
+}
+
+.specs {
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+}
+
+.specs div {
+    margin-top: 2vw;
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+    justify-content: space-around;
+    color: rgb(165, 163, 163);
+    font-size: 1.2vw;
+    text-align: left;
+}
+
+.specs div strong {
+    color: #7b755e;
+    font-size: 1.4vw;
+}
+
+.specs div:last-child {
+    margin-right: 0;
+}
+
 
 iframe {
     width: 75vw;

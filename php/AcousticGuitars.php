@@ -1,12 +1,8 @@
 <?php 
-
 session_start();
-
 include('../server/connection.php');
-
 if(isset($_GET['page_no']) && $_GET['page_no'] != '') {
     $page_no = $_GET['page_no'];
-
 } else {
     // if user just entered the page 
     $page_no = 1;
@@ -17,33 +13,20 @@ $stmt1->execute();
 $stmt1->bind_result($total_records);
 $stmt1->store_result();
 $stmt1->fetch();
-
 // products per page
-
 $total_records_per_page = 8;
-
 $offset = ($page_no-1) * $total_records_per_page;
-
 $previous_page = $page_no-1;
 $next_page = $page_no+ 1;
-
 $adjacents = '2';
-
 $total_no_of_pages = ceil( $total_records / $total_records_per_page );
-
 // get all products
-
 $stmt = $conn->prepare("SELECT * FROM products WHERE product_category='acustic' LIMIT $offset,$total_records_per_page");
-
 $stmt->execute();
-
 $featured_products =  $stmt->get_result();
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +39,6 @@ $featured_products =  $stmt->get_result();
     <link rel="stylesheet" href="../css/AcousticGuitars.css">
     <link rel="stylesheet" href="../css/Header.css">
     <link rel="stylesheet" href="../css/Footer.css">
-
 <?php  
     include('../layouts/header-php.php');
 ?>
@@ -92,7 +74,7 @@ $featured_products =  $stmt->get_result();
                     </li>
 
                     <li class="page-item"><a class="page-link" href="?page_no=1">1</a></li>
-                    <?php if($page_no>1) { ?>
+                    <?php if($total_no_of_pages>1) { ?>
                     <li class="page-item"><a class="page-link" href="?page_no=2">2</a></li>
                     <?php } ?>
 

@@ -381,5 +381,16 @@ form{
         font-size: 8vw;
         color: #2a2929;
     }
-
 }
+
+@media (max-width: 991px) {
+
+    body {
+        background-color: black;
+        display: flex;
+        flex-direction: column;
+        min-height: 115%;
+    }
+
+} 
+

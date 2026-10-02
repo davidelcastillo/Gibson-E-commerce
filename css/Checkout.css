@@ -104,7 +104,7 @@ body{
     }
 }
 
-form {
+.bill-form {
     width: 25vw;
 }
 
@@ -130,7 +130,7 @@ h4 {
 .form-control:hover {
     background-color: rgb(161, 160, 160);
 
-}
+} 
 
 .place_order-container {
     align-items: center;
@@ -252,7 +252,7 @@ h6 {
         flex-direction: column;
     }
 
-    form {
+    .bill-form {
         width: 70vw;
     }
 

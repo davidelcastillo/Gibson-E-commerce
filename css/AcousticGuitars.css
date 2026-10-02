@@ -48,16 +48,16 @@ body {
 
 .cardsContainer {
     height: fit-content;
-    /* padding-top: %;
+    padding-top: 5%;
     padding-left: 5%;
-    padding-right: 5%; */
+    padding-right: 5%;
     display: flex;
     width: 100vw;
     align-items: center;
     justify-content: space-around;
     flex-wrap: wrap;
     background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgb(0, 0, 0) 47%, rgb(66, 21, 0) 100%);
+    background: linear-gradient(0deg, rgb(0, 0, 0) 65%, rgb(66, 21, 0) 100%);
 }
 
 
@@ -65,13 +65,12 @@ body {
     width: 10%;
     height: fit-content;
     border-radius: 15px;
-    background: #494949d4;
+    background: #2e2e2ed4;
     /* box-shadow: 15px 15px 30px rgb(25, 25, 25), -15px -15px 30px rgb(60, 60, 60); */
     /* flex: 1 1 200px; */
     flex: 0 0 20%;
     /* margin-bottom: 2%; */
-    margin-top: 4%;
-    margin-bottom: 4%;
+    margin: 2%;
     padding: 2%;
     display: flex;
     align-items: center;

@@ -29,11 +29,11 @@ footer .footerImageContainer {
     justify-content: center;
     align-items: center;
     padding-top: 2%;
-    /*padding-bottom: 4.6%;*/
+    padding-bottom: 4.6%;
 }
 
 .footerInfoContainer {
-    width: 100vw;
+    /* width: 100vw; */
     display: flex;
     justify-content: space-around;
     font-size: 2rem;

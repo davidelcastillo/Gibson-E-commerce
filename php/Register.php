@@ -64,16 +64,41 @@ if (isset($_POST["register"])) {
                 require '../phpmailer/src/PHPMailer.php';
                 require '../phpmailer/src/SMTP.php';
 
+                require_once __DIR__ . '/../config/env.php';
+
+                // SMTP settings come from the environment (see .env.example); no
+                // credential is hardcoded here. Port and secure mode keep their
+                // historical defaults (465 / ssl) when not provided.
+                $smtpHost   = getenv('SMTP_HOST');
+                $smtpPort   = getenv('SMTP_PORT');
+                $smtpSecure = getenv('SMTP_SECURE');
+                $smtpUser   = getenv('SMTP_USER');
+                $smtpPass   = getenv('SMTP_PASS');
+                // MAIL_TO is intentionally not read here: these notifications go
+                // to the registered user, not to the contact-form recipient.
+                $mailFrom   = getenv('MAIL_FROM');
+
+                if ($smtpPort === false || $smtpPort === '') { $smtpPort = 465; }
+                if ($smtpSecure === false || $smtpSecure === '') { $smtpSecure = 'ssl'; }
+
+                if ($smtpHost === false || $smtpHost === ''
+                    || $smtpUser === false || $smtpUser === ''
+                    || $smtpPass === false || $smtpPass === ''
+                    || $mailFrom === false || $mailFrom === '') {
+                    die('Mail configuration is incomplete: set SMTP_HOST, SMTP_USER, SMTP_PASS and MAIL_FROM.');
+                }
+
                 $mail = new PHPMailer(true);
                 $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
+                $mail->Host = $smtpHost;
                 $mail->SMTPAuth = true;
-                $mail->Username = 'gibsonlenguajes@gmail.com';
-                $mail->Password = 'kqtkgdodkivkibup';
-                $mail->SMTPSecure = 'ssl';
-                $mail->Port = 465;
+                $mail->Username = $smtpUser;
+                $mail->Password = $smtpPass;
+                $mail->SMTPSecure = $smtpSecure;
+                $mail->Port = (int) $smtpPort;
 
-                $mail->setFrom('gibsonlenguajes@gmail.com');
+                $mail->Sender = $mailFrom;
+                $mail->setFrom($mailFrom);
 
                 $mail->addAddress($user_email);
 
@@ -85,7 +110,7 @@ if (isset($_POST["register"])) {
 
                 $mail->send();
 
-                header('location: Account.php?register_succes=You register succesfully');
+                header('location: Account.php?log_success=You register succesfully');
             }else{
     
                 header('location: Register.php?error=Cold´t create account');

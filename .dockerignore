@@ -1,0 +1,26 @@
+# Build context exclusions - the repository is ~265 MB and the build should not
+# carry version-control metadata, tooling caches or deploy-only directories.
+
+# Version control & tooling metadata
+.git
+.gitignore
+.codegraph
+.atl
+.vscode
+
+# Not needed inside the image
+odd
+vid
+node_modules
+
+# Secrets: never bake .env into the image (see .env.example for the template)
+.env
+.env.*
+
+# Editor / OS noise
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
+*.swp
+*~

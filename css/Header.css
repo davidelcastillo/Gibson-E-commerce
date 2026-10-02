@@ -55,7 +55,7 @@ html {
 
 .contenedorLinksNavbar {
     height: 100%;
-    width: 60%;
+    width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -66,6 +66,11 @@ html {
     height: 10vh;
     justify-content: space-between;
     margin-right: 1.5vw;
+    width: fit-content;
+}
+
+.nav-item {
+    width: 9.5vw;
 }
 
 .cart-btn {
@@ -79,12 +84,17 @@ html {
 }
 
 .cart-quantity {
+    position: absolute;
+    top: 4px; /* Ajusta según necesites */
+    right: 30px; /* Ajusta según necesites */
+    background-color: red;
     color: white;
     border-radius: 50%;
-    font-size: 1rem;
-    margin-right: 0.55vw;
-    background-color: rgb(90, 90, 90);
-    border-radius: 20%;
+    padding: 0 5px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .buttonNavbarRight {
@@ -100,7 +110,7 @@ html {
 
 .formNavbar {
     width: 27vw;
-    margin-left: 5vw;
+    margin-left: 0.5vw;
 }
 
 .inputSearchNavbar {
@@ -110,7 +120,8 @@ html {
     transition: 1s;
     color: black;
     height: 40px;
-    margin-top: 2%;
+    margin-top: 4%;
+    width: 10vw;
 }
 
 .inputSearchNavbar:hover {
@@ -134,61 +145,233 @@ html {
     background-color: transparent;
 }
 
+
+/* Estilos para pantallas pequeñas */
+@media (max-width: 580px) {
+
+    .menuHamburguesaButton {
+        width: 13vw;
+    }
+
+    .logoNavbar {
+        width: 12vw;
+        align-self: center;
+        justify-self: center;
+    }
+
+    .contenedorDivImagenNavbar {
+        display: flex;
+        width: fit-content;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .cart-btn {
+        width: auto;
+        padding: 0;
+    }
+
+    .cart-container {
+        position: relative;
+        margin-left: 0;
+    }
+
+    .cart-quantity {
+        color: white;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        margin-right: 0;
+        background-color: red;
+        padding: 0 5px;
+        position: absolute;
+        top: -5px;
+        right: 1px;
+    }
+
+    .buttonNavbarRight {
+        color: white;
+        font-size: 1.5rem;
+        transition: 1s;
+        margin: 0 0.5rem;
+    }
+
+    .formNavbar {
+        width: fit-content;
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+        align-self: flex-start;
+        margin-top: 5vw;
+        padding-left: 0.1vw;
+        margin-right: 0;
+    }
+
+    .inputSearchNavbar {
+        background-color: rgb(36, 36, 36);
+        border-color: white;
+        border-radius: 2cm;
+        transition: 1s;
+        color: white;
+        height: 40px;
+        margin-top: 0;
+        width: 10vw;
+        display: block;
+    }
+
+    .inputSearchNavbar:hover {
+        background-color: rgb(60, 57, 57);
+    }
+
+    .search-btn {
+        width: auto;
+        transition: 1s;
+        background-color: transparent;
+        border: none;
+        color: white;
+        display: none;
+    }
+
+    .search-btn:hover {
+        color: brown;
+        background-color: transparent;
+    }
+
+    .navbar-toggler {
+        margin-left: 0;
+    }
+
+    .contenedorInfoNavbar {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contenedorLinksNavbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .nav-link {
+        width: 40vw;
+    }
+}
+
+
 @media (max-width: 991px) {
     .navbarContenedorAbajo {
         padding: 0;
         color: white;
         background-color: rgb(125, 0, 27);
-    } 
+    }
 
     .contenedorLinksNavbar {
         background-color: rgb(27, 27, 27);
         position: absolute;
-        z-index: 1;
+        z-index: 5;
         width: 100vw;
         height: 50vh;
-    } 
+    }
 
-    /* .formNavbar input, i{
-        display: none;
-    }  */
-
-    .menuHamburguesaButton{
+    .menuHamburguesaButton {
         transition: 1s;
         background-color: rgb(90, 90, 90);
+        margin: 0vw;
     }
 
-    .menuHamburguesaButton:hover{
+    .menuHamburguesaButton:hover {
         border: none;
         background-color: white;
-        /* border: ; */
-
     }
-}
 
-@media (max-width: 580px) {
-    .logoNavbar {
-        width: 60%;
+    .cart-container {
+        position: relative;
+        margin-left: 0;
     }
-}
 
-.contenedorLogoNavbar{
-    background-color: black;
-    border-radius: 50%;
-    width: 4%;
-}
+    .cart-quantity {
+        color: white;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        margin-right: 0;
+        background-color: red;
+        padding: 0 5px;
+        position: absolute;
+        top: 0px;
+        right: -10px;
+    }
 
-.navbarContainer1{
-    background-color: black;
-    margin: 0;
-    padding: 0;
-}
+    .buttonNavbarRight {
+        color: white;
+        font-size: 1.5rem;
+        transition: 1s;
+        margin: 0 0.5rem;
+    }
 
-.navbarContainer2{
-   background-color: black;
-}
+    .formNavbar {
+        width: fit-content;
+        margin-left: 0;
+        display: flex;
+        align-items: center;
+    }
 
-.contenedorLogoNavbar img{
-    width: 100%;
-    height: auto;
+    .inputSearchNavbar {
+        background-color: rgb(36, 36, 36);
+        border-color: white;
+        border-radius: 2cm;
+        transition: 1s;
+        color: white;
+        height: 40px;
+        margin-top: 0;
+        width: 40vw; 
+        display: block;
+    }
+
+    .inputSearchNavbar:hover {
+        background-color: rgb(60, 57, 57);
+    }
+
+    .search-btn {
+        width: auto;
+        transition: 1s;
+        background-color: transparent;
+        border: none;
+        color: white;
+        display: none; 
+    }
+
+    .search-btn:hover {
+        color: brown;
+        background-color: transparent;
+    }
+
+    .navbar-toggler {
+        margin-left: auto;
+    }
+
+    .contenedorInfoNavbar {
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contenedorLinksNavbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-nav .nav-link {
+        color: white;
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .nav-link {
+        width: 40vw;
+    }
 } 

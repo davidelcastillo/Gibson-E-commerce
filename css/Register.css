@@ -20,7 +20,6 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     background-size: cover;
     background-position: center 60%;
     background-repeat: no-repeat;
@@ -45,7 +44,7 @@ body{
 }
 
 .wrapper {
-    height: 55vw;
+    height: 57vw;
 }
 
 /* .title h1 {
@@ -75,13 +74,13 @@ body{
   /* form animation starts */
 .form {
     background: rgb(55, 54, 54);
-    zoom: 1;
+    /* zoom: 1;
     filter: alpha(opacity=90);
-    opacity: 0.9;
+    opacity: 0.9; */
     box-shadow: 0 20px 20px 0 rgba(90, 116, 148, 0.4);
     border-radius: 12px;
     width: 43vw;
-    height: 50vw;
+    height: min-content;
     margin-left: auto;
     margin-right: auto;
     padding-top: 5px;
@@ -110,6 +109,7 @@ p {
     margin-top: 0.3vw;
     color: #a1a0a0;
     font-size: 1.7vw;
+    font-weight: 400;
 }
 
 .lst-p {
@@ -122,14 +122,17 @@ p {
     background-color: transparent;
     transition: 1.5s;
     width: 30vw;
-    margin: 1vw;
+    margin: 2vw;
     border-radius: 1vw;
-    border-color: #a1a0a0;
+    border: 2px solid #a1a0a0; /* Asegura que el borde sea de un solo color */
     margin-right: 1vw;
     margin-top: 0vw;
     margin-left: 1%;
     justify-self: left;
     height: 3.5vw;
+    color: white;
+    box-shadow: none; /* Elimina cualquier sombra que pueda estar afectando el borde */
+    outline: none; /* Quita el borde adicional que aparece al hacer clic */
 }
 
 .inp-main:hover {

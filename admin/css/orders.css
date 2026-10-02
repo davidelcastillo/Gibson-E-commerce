@@ -1,0 +1,198 @@
+.main-content {
+    width: 87vw;
+    padding: 2vw;
+    /* flex-grow: 1;
+    padding: 20px;
+    background-color: #181828;
+    overflow-y: auto; */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2vw;
+}
+
+header h1 {
+    color: #ffffff;
+    font-size: 3vw;
+}
+
+.main-tble {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.table_conteiner {
+    background-color: rgb(56,60,60) !important;
+    border-radius: 1vw;
+    width: 74vw;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente la tabla */
+    align-items: center; /* Centra verticalmente */
+    margin: auto; /* Asegura que el contenedor se centre en su contenedor principal */
+    padding: 1vw; 
+}
+
+table {
+    background-color: rgb(56,60,60) !important; 
+    padding: 1vw;
+    border-radius: 15%;
+    text-align: center;
+}
+
+.table_title {
+    text-align: center;
+    color: white;
+    font-size: 2vw;
+}
+
+tr:first-of-type th:first-of-type {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.price-cell {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    text-align: center;
+}
+
+
+form{
+    align-self: center;
+    justify-self: center;
+}
+
+th, td {
+    /* border-radius: 10px; */
+    background-color: rgb(38, 37, 37);
+    text-align: center;
+}
+
+th {
+    border-bottom: 1% white;
+}
+
+.Details_conteiner {
+    color: white;
+    font-size: 1.3vw;
+    text-align: center;
+    width: 7vw;
+}
+
+.mb-0 {
+    align-items: center;
+}
+
+.row {
+    width: 20vw;
+}
+
+.edit-btn{
+    background-color: rgb(7, 18, 46);
+    font-size: 1.3vw;
+    transition: 1s;
+    color: white;
+    justify-self: center;
+    align-self: center;
+    border-radius: 1vw;
+    border-color: transparent;
+    height: fit-content;
+    cursor: pointer;
+    padding: 0.5vw;
+    text-decoration: none;
+}
+
+.edit-btn:hover {
+    background-color: rgb(49, 68, 165);
+    height: 3.7vw;
+    font-size: 1.7vw;
+    color: #2a2929;
+}
+
+.delete-btn{
+    background-color: rgb(54, 13, 13);
+    font-size: 1.3vw;
+    transition: 1s;
+    color: white;
+    justify-self: center;
+    align-self: center;
+    border-radius: 1vw;
+    border-color: transparent;
+    height: fit-content;
+    cursor: pointer;
+    padding: 0.5vw;
+    text-decoration: none;
+}
+
+.delete-btn:hover {
+    background-color: rgb(174, 72, 72);
+    height: 3.7vw;
+    font-size: 1.7vw;
+    color: #2a2929;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+} 
+
+.pagination\:container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.pagination li {
+    flex-direction: row;
+    display: inline-flex;
+    margin: 0 5px;
+    background-color: transparent;
+    color: #818082;
+    border: 0;
+}
+
+.pagination > li:focus,
+.pagination > li:hover,
+.pagination > li:focus,
+.pagination > li:hover
+{
+    color: #fffefe;
+    background-color: #242424;
+    border: 0;
+}
+  
+.pagination > li > a
+{
+    background-color: transparent;
+    color: #818082;
+    border: 0;
+}
+  
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #fffefe;
+    background-color: #242424;
+    border: 0;
+}
+  
+.pagination > .disable > a
+{
+    color: rgb(62, 52, 52);
+    background-color: transparent;
+    border-color: transparent;
+    border: 0;
+}
+
+
+
+
+  

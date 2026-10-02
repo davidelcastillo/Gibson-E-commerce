@@ -29,7 +29,7 @@ body{
 } */
 
 .main_section .titleContainer {
-    height: 10vw;
+    height: 18vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -241,7 +241,7 @@ body{
 @media (max-width: 768px) {
     
     .main_section .titleContainer {
-        height: 19vw;
+        height: 30vw;
         display: flex;
         justify-content: center;
         align-items: center;

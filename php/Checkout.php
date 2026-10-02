@@ -48,7 +48,7 @@ if (!empty( $_SESSION["cart"] ) ) {
             <div class="info_conteiner">
                 <div class="info_details">
                     <h4>Billing address</h4>
-                    <form class="needs-validation" method="POST" action="../server/place_order.php">
+                    <form class="needs-validation bill-form" method="POST" action="../server/place_order.php">
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName">First name</label>
@@ -83,12 +83,12 @@ if (!empty( $_SESSION["cart"] ) ) {
                         </div>
 
                         <div class="mb-3">
-                        <label for="address2">Phone</label>
+                        <label for="phone">Phone</label>
                         <input type="text" class="form-control" name="phone" placeholder="333 111 2222">
                         </div>
 
                         <div class="mb-3">
-                        <label for="address2">City</label>
+                        <label for="city">City</label>
                         <input type="text" class="form-control" name="city" placeholder="Texas">
                         </div>
 

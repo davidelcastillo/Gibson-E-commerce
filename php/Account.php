@@ -1,13 +1,10 @@
 <?php
-
 session_start();
 include("../server/connection.php");
-
 if(!isset($_SESSION["logged_in"])) {
     header('location: ./Login.php');
     exit;
 }
-
 if(isset($_GET["logout"])) {
     if (isset($_SESSION["logged_in"])) {
         unset( $_SESSION["logged_in"] );
@@ -18,61 +15,40 @@ if(isset($_GET["logout"])) {
         exit;
     }
 }
-
-if(isset($_POST['change_password'])) {
-
+if(isset($_POST['change_password'])) { 
     $password = $_POST['password'];
     $new_password = $_POST['new_password'];
-
     if (strlen($new_password) < 6) {
         header('location: Account.php?error2=password must be at least 6 characters');
     }else {
-
         $stmt1 = $conn->prepare('SELECT user_password FROM users WHERE user_email = ?');
         $stmt1->bind_param('s', $_SESSION['user_email']);
         $stmt1->execute();
         $stmt1->bind_result($pss);
         $stmt1->store_result();
         $stmt1->fetch();
-
         if ($pss != md5($password)) {
-    
-            header('location: Account.php?error=Wrong Password');
-    
+            header('location: Account.php?error=Wrong Password');   
         }else {
-
             $stmt2 = $conn->prepare('UPDATE users SET user_password = ?
                                     WHERE user_email = ?'); 
-            $stmt2->bind_param('ss', md5($new_password), $_SESSION['user_email']);
-            
+            $stmt2->bind_param('ss', md5($new_password), $_SESSION['user_email']);         
             if($stmt2->execute()){
-                header('location: Account.php?message=password has been updated succesfully');
+                header('location: Account.php?message=Password has been updated succesfully');
             }else {
                 header('location: Account.php?error2=Could´t update password');
             }
-
         }
-
     }
-
 }
-
 //Get Orders
 if(isset($_SESSION['logged_in'])) {
-
     $stmt = $conn->prepare("SELECT * FROM orders WHERE user_id=?");
-
     $stmt->bind_param("i", $_SESSION["user_id"]);
-
     $stmt->execute();
-
     $orders =  $stmt->get_result();
-
 }
-
 ?>
-
-
 <!DOCTYPE html>
 <!DOCTYPE html>
 <html lang="en">
@@ -89,6 +65,7 @@ if(isset($_SESSION['logged_in'])) {
     <link rel="stylesheet" href="../css/Account.css">
     <link rel="stylesheet" href="../css/Header.css">
     <link rel="stylesheet" href="../css/Footer.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 
@@ -102,14 +79,43 @@ if(isset($_SESSION['logged_in'])) {
             </h1>
         </div>
         <section class="info_section">
-        <?php if(isset($_GET['payment_message'])){ ?>
-        <p class="mt-5 text-center" style="font-size: 2.5vw; color:aliceblue ;"><?php echo $_GET['payment_message']; ?></p>
+
+        <?php 
+            if(isset($_GET['payment_message'])) { 
+        ?>
+                <script>
+                    Swal.fire({
+                        icon: "success",
+                        title: "<?php echo $_GET['payment_message'];  ?>",
+                        color: "#6f6d6b",
+                        background: "#0f0e0b"
+                    });
+                </script>    
+
         <?php } ?>
             <div class="info_conteiner">
                 <div class="account_details">
                     <h4>Account Info</h4>
-                    <p style="color:green"><?php if(isset($_GET['register_succes'])){echo $_GET['register_succes'];} ?></p>
-                    <p style="color:green"><?php if(isset($_GET['login_success'])){echo $_GET['login_success'];} ?></p>
+                    <?php 
+                        if(isset($_GET['log_success'])) { 
+                    ?>
+                            <script>
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: " <?php echo $_GET['log_success']; ?> ",
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                    color: "#6f6d6b",
+                                    background: "#0f0e0b",
+
+                                });
+                            </script>
+                    <?php 
+                        }
+                    ?>
+
+
                     <form>
                         <div class="mb-3">
                         <label for="name">Name : <?php if(isset($_SESSION['user_name'])) {echo $_SESSION['user_name'];} ?> </label>
@@ -149,7 +155,20 @@ if(isset($_SESSION['logged_in'])) {
                             <input type="text" class="form-control main-inpt" name="new_password" placeholder="New Password">
                             <p style="color:red"><?php if(isset($_GET['error2'])){echo $_GET['error2'];} ?></p>
                         </div> 
-                    <p style="color:green"><?php if(isset($_GET['message'])){echo $_GET['message'];} ?></p>
+                    <?php 
+                        if(isset($_GET['message'])){
+                    ?>
+                    <script>
+                        Swal.fire({
+                            icon: "success",
+                            title: "<?php echo $_GET['message'] ; ?>",
+                            color: "#6f6d6b",
+                            background: "#0f0e0b"
+                        });
+                    </script>
+
+                    <?php } ?>
+
                     <input type="submit" class="btn checkout-btn" value="Change Password" name="change_password">
                     </form>
                 </div>

@@ -23,11 +23,6 @@
                     <img src="../img/logoGibson.png" alt="logo de Gibson" class="logoNavbar">
                 </a>  
             </div>
-            <button class="navbar-toggler menuHamburguesaButton" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse contenedorInfoNavbar" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 contenedorLinksNavbar">
                     <li class="nav-item">
@@ -40,20 +35,29 @@
                         <a class="nav-link" href="./AboutUs.html">about us</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./Guitarist.html">guitarist</a>
+                        <a class="nav-link" href="./Records.html">records</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./ContactUs.html">contact us</a>
                     </li>
-
                 </ul>
-                <form class="d-flex formNavbar" role="search" method="POST" action="../php/Search.php" >
-                    <input class="form-control me-2 inputSearchNavbar" type="search" aria-label="Search" name="search">
-                    <button class="search-btn" type="submit"><i class="bi bi-search buttonNavbarRight"></i></button>
-                    <a href="../php/Login.php" class="btn" type="submit"><i class="bi bi-person buttonNavbarRight"></i> </a>
-                    <a class="btn" type="submit" href="../php/Cart.php" ><i class="bi bi-cart buttonNavbarRight"></i>  </a>
-                </form>
             </div>
+            <div class="d-flex formNavbar">
+                <form class="d-flex" role="search" method="POST" action="../php/Search.php" >
+                    <input class="form-control me-2 inputSearchNavbar" type="search" aria-label="Search" name="search" id="searchInput">
+                    <button class="search-btn" type="submit" id="searchIcon" ><i class="bi bi-search buttonNavbarRight"></i></button>
+                </form>
+                <a href="../php/Login.php" class="btn" type="submit"><i class="bi bi-person buttonNavbarRight"></i> </a>
+                <div class="cart-container">
+                    <a class="btn cart-btn" type="submit" href="../php/Cart.php" ><i class="bi bi-cart buttonNavbarRight"> </i>
+                    </a>
+                </div>   
+            </div>
+            <button class="navbar-toggler menuHamburguesaButton" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
     </nav>
     <section class="main_section">
@@ -98,7 +102,7 @@
                     <a href="https://www.facebook.com/GibsonES/?brand_redir=98534165717" target="_blank">
                         <i  class="bi bi-facebook"></i>
                     </a>
-                    <a href="https://twitter.com/Gibson" target="_blank">
+                    <a href="https://twitter.com/gibsonguitar" target="_blank">
                         <i class="bi bi-twitter"></i>
                     </a>
                     <a href="https://www.instagram.com/gibsonguitar" target="_blank">
@@ -119,7 +123,8 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
 </body> 
 
 </html>

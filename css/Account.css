@@ -154,16 +154,16 @@ label{
 }
 
 .main-inpt {
-    background-color: transparent;
-    transition: 1.5s;
+    background-color: rgb(18, 18, 18); 
+    transition: 1s;
     border-radius: 1vw;
-    border-color: #a1a0a0;
     width: 25vw;
+    border-style: solid;
+    border-color: #a1a0a0;
+    border-width: medium;
 }
 
 .main-inpt:hover {
-    border-bottom: 5px solid #1f201f;
-    transition: 1s;
     width: 28vw;
 }
 
@@ -329,7 +329,7 @@ h5 {
         z-index: 1;
         animation: bounce 1.5s infinite;
         justify-self: center;
-        height: 100vw;
+        height: fit-content;
     }
     
     h4 {
@@ -404,8 +404,8 @@ h5 {
     
     .checkout-btn:hover {
         background-color: rgb(155, 151, 151);
-        height: 4.9vw;
-        font-size: 4.3vw;
+        font-size: 4vw;
+        height: 8vw;
         color: #2a2929;
     }
 

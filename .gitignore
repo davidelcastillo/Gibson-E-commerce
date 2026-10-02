@@ -1,0 +1,22 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Tooling caches
+.atl/
+.codegraph/
+
+# PHP dependencies (PHPMailer is vendored in-tree)
+vendor/
+composer.lock
+
+# OS noise
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Logs
+*.log
+
+DEPLOY.md
